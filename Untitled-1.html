@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>Slot Machine Animata</title>
+  <style>
+    /* Stile generale della pagina */
+    body {
+      background: #f9f9f9;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 50px;
+    }
+
+    /* Titolo principale */
+    h1 {
+      font-size: 36px;
+      color: #444;
+      margin-bottom: 30px;
+    }
+
+    /* Contenitore dei 3 simboli */
+    .slot-container {
+      display: flex;
+      justify-content: center;
+      background: #ffffff;
+      border: 4px solid #ccc;
+      border-radius: 20px;
+      padding: 20px 30px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Stile di ogni simbolo */
+    .slot {
+      font-size: 50px;
+      width: 80px;
+      height: 80px;
+      margin: 0 15px;
+      border: 3px solid #999;
+      border-radius: 15px;
+      background-color: #fffef5;
+      line-height: 80px;
+      text-align: center;
+      transition: transform 0.4s ease; /* per animazione */
+    }
+
+    /* Classe aggiunta temporaneamente per far ruotare il simbolo */
+    .spin {
+      transform: rotateX(360deg);
+    }
+
+    /* Bottone "Gira!" */
+    button {
+      margin-top: 30px;
+      padding: 12px 28px;
+      font-size: 20px;
+      background-color: #ff6f00;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      transition: background-color 0.3s ease;
+    }
+
+    /* Effetto al passaggio del mouse */
+    button:hover {
+      background-color: #e65c00;
+    }
+
+    /* Testo del risultato */
+    #result {
+      margin-top: 25px;
+      font-size: 26px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Titolo del gioco -->
+  <h1>🎰 Slot Machine</h1>
+
+  <!-- Contenitore con i 3 simboli -->
+  <div class="slot-container">
+    <div class="slot" id="slot1">🍒</div>
+    <div class="slot" id="slot2">🍋</div>
+    <div class="slot" id="slot3">🍊</div>
+  </div>
+
+  <!-- Bottone per attivare la slot -->
+  <button onclick="giraSlot()">Gira!</button>
+
+  <!-- Mostra il risultato della giocata -->
+  <div id="result"></div>
+
+  <script>
+    // Elenco dei simboli possibili
+    const simboli = ['🍒', '🍋', '🍊', '🍉', '⭐', '🔔'];
+
+    // Funzione principale eseguita al click
+    function giraSlot() {
+      // Riferimenti ai 3 slot
+      const slot1 = document.getElementById('slot1');
+      const slot2 = document.getElementById('slot2');
+      const slot3 = document.getElementById('slot3');
+      const result = document.getElementById('result');
+
+      // Aggiunge la classe 'spin' per attivare l'animazione
+      [slot1, slot2, slot3].forEach(slot => {
+        slot.classList.add('spin');
+        // Rimuove l'animazione dopo mezzo secondo
+        setTimeout(() => slot.classList.remove('spin'), 500);
+      });
+
+      // Genera simboli casuali
+      const s1 = simboli[Math.floor(Math.random() * simboli.length)];
+      const s2 = simboli[Math.floor(Math.random() * simboli.length)];
+      const s3 = simboli[Math.floor(Math.random() * simboli.length)];
+
+      // Dopo 400ms (quando finisce l'animazione) aggiorna i simboli
+      setTimeout(() => {
+        slot1.textContent = s1;
+        slot2.textContent = s2;
+        slot3.textContent = s3;
+
+        // Verifica se tutti e tre i simboli sono uguali → vittoria
+        if (s1 === s2 && s2 === s3) {
+          result.textContent = '🎉 HAI VINTO!';
+          result.style.color = 'green';
+        } else {
+          result.textContent = '😞 Riprova!';
+          result.style.color = 'red';
+        }
+      }, 400);
+    }
+  </script>
+
+</body>
+</html>
